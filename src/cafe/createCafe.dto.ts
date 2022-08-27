@@ -11,7 +11,7 @@ export class CreateCafeDto {
   @IsNotEmpty()
   public name: string;
 
-  @IsEmail()
+  @IsString()
   public description: string;
 
   @IsString()
