@@ -16,6 +16,7 @@ export class EmployeeService {
     employee.email_address = body.email_address;
     employee.gender = body.gender;
     employee.phone_number = body.phone_number;
+    employee.cafe = body.cafe;
 
     return this.repository.save(employee);
   }

@@ -4,7 +4,9 @@ import {
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  ManyToOne,
 } from 'typeorm';
+import Cafe from '../../cafe/cafe.entity';
 
 @Entity()
 export class Employee {
@@ -25,4 +27,7 @@ export class Employee {
 
   @UpdateDateColumn({ type: 'timestamp' })
   public updatedAt!: Date;
+
+  @ManyToOne(() => Cafe, (cafe) => cafe.employees)
+  cafe: Cafe;
 }

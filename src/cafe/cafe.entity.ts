@@ -1,13 +1,15 @@
+import { Employee } from '../employee/Entity/employee.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
   Column,
   CreateDateColumn,
   UpdateDateColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
-export class Cafe {
+export default class Cafe {
   @PrimaryGeneratedColumn()
   public id!: number;
 
@@ -25,4 +27,7 @@ export class Cafe {
 
   @UpdateDateColumn({ type: 'timestamp' })
   public updatedAt!: Date;
+
+  @OneToMany(() => Employee, (employee) => employee.cafe)
+  employees: Employee[];
 }

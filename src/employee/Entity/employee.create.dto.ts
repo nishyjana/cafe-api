@@ -1,4 +1,11 @@
-import { IsEmail, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
+import Cafe from '../../cafe/cafe.entity';
 import { Gender } from './employee.enum';
 
 export class CreateEmployeeDto {
@@ -15,4 +22,8 @@ export class CreateEmployeeDto {
   @IsString()
   @IsEnum(Gender)
   public gender: Gender;
+
+  @IsNumber()
+  @IsNotEmpty()
+  public cafe: Cafe;
 }
