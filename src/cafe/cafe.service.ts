@@ -36,7 +36,6 @@ export class CafeService {
     const dto = new GetCafeByLocationDtoResponse();
     dto.cafes = cafes;
     dto.employees = cafes['employees'];
-    console.log(cafes);
 
     return dto;
   }
