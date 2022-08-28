@@ -2,8 +2,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import Cafe from './cafe.entity';
-import { CreateCafeDto } from './createCafe.dto';
+import Cafe from './Entity/cafe.entity';
+import { CreateCafeDto } from './Dto/createCafe.dto';
+import { GetCafeByLocationDtoResponse } from './Dto/getCafeByLocation.dto';
+import { Employee } from 'src/employee/Entity/employee.entity';
 
 @Injectable()
 export class CafeService {
@@ -21,11 +23,17 @@ export class CafeService {
     return await this.repository.save(cafe);
   }
 
-  public async getCafeByLocation(location: string): Promise<Cafe[]> {
-    const response = await this.repository.manager
+  public async getCafeByLocation(
+    location: string,
+  ): Promise<GetCafeByLocationDtoResponse> {
+    const cafes = await this.repository.manager
       .createQueryBuilder(Cafe, 'cafe')
       .where('cafe.location = :location', { location: location.toLowerCase() })
       .getMany();
-    return response;
+
+    const dto = new GetCafeByLocationDtoResponse();
+    dto.cafes = cafes;
+
+    return dto;
   }
 }

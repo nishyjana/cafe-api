@@ -6,7 +6,7 @@ import {
   UpdateDateColumn,
   ManyToOne,
 } from 'typeorm';
-import Cafe from '../../cafe/cafe.entity';
+import Cafe from '../../cafe/Entity/cafe.entity';
 
 @Entity()
 export class Employee {

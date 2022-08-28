@@ -1,4 +1,4 @@
-import Cafe from '../cafe/cafe.entity';
+import Cafe from '../cafe/Entity/cafe.entity';
 import { Employee } from '../employee/Entity/employee.entity';
 import { DataSource } from 'typeorm';
 

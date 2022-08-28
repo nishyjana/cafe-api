@@ -1,10 +1,5 @@
-import {
-  IsEmail,
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreateCafeDto {
   @IsString()

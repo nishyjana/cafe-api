@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   Body,
   Controller,
@@ -9,9 +10,10 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import Cafe from './cafe.entity';
+import Cafe from './Entity/cafe.entity';
 import { CafeService } from './cafe.service';
-import { CreateCafeDto } from './createCafe.dto';
+import { CreateCafeDto } from './Dto/createCafe.dto';
+import { GetCafeByLocationDtoResponse } from './Dto/getCafeByLocation.dto';
 
 @Controller('cafe')
 export class CafeController {
@@ -24,7 +26,9 @@ export class CafeController {
   }
 
   @Get('/cafes?')
-  public getUser(@Query('location') location: string): Promise<Cafe[]> {
+  public getUser(
+    @Query('location') location: string,
+  ): Promise<GetCafeByLocationDtoResponse> {
     return this.cafeService.getCafeByLocation(location);
   }
 }

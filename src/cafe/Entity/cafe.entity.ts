@@ -1,4 +1,4 @@
-import { Employee } from '../employee/Entity/employee.entity';
+import { Employee } from '../../employee/Entity/employee.entity';
 import {
   Entity,
   PrimaryGeneratedColumn,
