@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import Cafe from '../cafe/Entity/cafe.entity';
 import { Repository } from 'typeorm';
 import { GetEmployeeByCafeDtoResponse } from './Dto/GetEmployeeResponse.dto';
 import { CreateEmployeeDto } from './Entity/employee.create.dto';
@@ -25,14 +26,31 @@ export class EmployeeService {
   public async getEmployeesByCafe(
     cafe: string,
   ): Promise<GetEmployeeByCafeDtoResponse> {
-    const employee = await this.repository.manager
+    const date = Date.now();
+
+    const employees = await this.repository.manager
       .createQueryBuilder(Employee, 'employee')
       .leftJoinAndSelect('employee.cafe', 'cafe')
       .where('employee.cafe = :cafe', { cafe: cafe })
-      .select(['employee', 'cafe.name', 'cafe.name'])
-      .getRawMany();
+      .getMany();
+
+    const cafeDetail = await this.repository.manager
+      .createQueryBuilder(Cafe, 'cafe')
+      .where('cafe.id = :id', { id: cafe })
+      .getOne();
+
     const dto = new GetEmployeeByCafeDtoResponse();
-    dto.employee = employee;
+
+    dto.employee = employees?.map((employee) => ({
+      name: employee?.name,
+      email_address: employee?.email_address,
+      phone_number: employee?.phone_number,
+      cafe: cafeDetail?.name,
+      days_worked: Math.ceil(
+        Math.abs(date.valueOf() - employee.updatedAt.valueOf()) /
+          (1000 * 3600 * 24),
+      ),
+    }));
 
     return dto;
   }
