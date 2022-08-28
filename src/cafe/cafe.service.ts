@@ -15,7 +15,7 @@ export class CafeService {
 
     cafe.name = body.name;
     cafe.description = body.description;
-    cafe.location = body.location;
+    cafe.location = body.location.toLowerCase();
     cafe.logo = body.logo;
 
     return await this.repository.save(cafe);
@@ -24,7 +24,7 @@ export class CafeService {
   public async getCafeByLocation(location: string): Promise<Cafe[]> {
     const response = await this.repository.manager
       .createQueryBuilder(Cafe, 'cafe')
-      .where('cafe.location = :location', { location: location })
+      .where('cafe.location = :location', { location: location.toLowerCase() })
       .getMany();
     return response;
   }

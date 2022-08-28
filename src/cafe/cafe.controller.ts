@@ -23,7 +23,7 @@ export class CafeController {
     return this.cafeService.createCafe(body);
   }
 
-  @Get('/location?')
+  @Get('/cafes?')
   public getUser(@Query('location') location: string): Promise<Cafe[]> {
     return this.cafeService.getCafeByLocation(location);
   }
