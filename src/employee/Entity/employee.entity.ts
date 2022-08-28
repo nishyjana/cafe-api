@@ -5,6 +5,7 @@ import {
   CreateDateColumn,
   UpdateDateColumn,
   ManyToOne,
+  JoinColumn,
 } from 'typeorm';
 import Cafe from '../../cafe/Entity/cafe.entity';
 
@@ -28,6 +29,11 @@ export class Employee {
   @UpdateDateColumn({ type: 'timestamp' })
   public updatedAt!: Date;
 
-  @ManyToOne(() => Cafe, (cafe) => cafe.employees)
+  @ManyToOne(() => Cafe, (cafe) => cafe.employees, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ referencedColumnName: 'id' })
   cafe: Cafe;
 }

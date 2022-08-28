@@ -5,7 +5,7 @@ import { Repository } from 'typeorm';
 import Cafe from './Entity/cafe.entity';
 import { CreateCafeDto } from './Dto/createCafe.dto';
 import { GetCafeByLocationDtoResponse } from './Dto/getCafeByLocation.dto';
-import { Employee } from 'src/employee/Entity/employee.entity';
+import { Employee } from '../employee/entity/employee.entity';
 import { UpdateCafeDto } from './dto/updateCafe.dto';
 import { DeleteCafeDto } from './dto/deleteCafe.dto';
 
@@ -88,9 +88,34 @@ export class CafeService {
       .where('cafe.id = :id', { id: body?.id })
       .getOne();
 
+    // const cafeEmployees = await this.repository.manager
+    //   .createQueryBuilder(Cafe, 'cafe')
+    //   .where('cafe.id = :id', { id: body?.id })
+    //   .leftJoinAndSelect('cafe.employees', 'employees')
+    //   .getMany();
+
+    // const empployeesids = cafeEmployees
+    //   ?.map((e) => e.employees)
+    //   .map((e) => e.map((e) => e.id));
+
     if (cafeDetail) {
-      // return await this.repository.save(cafeBody);
       await this.repository.manager.delete(Cafe, body?.id);
+      // empployeesids[0]?.forEach(
+      //   async (employee) =>
+      //     await this.repository.manager.delete(Employee, employee),
+      // );
+      // const cafeEmployeesAfterDeelte = await this.repository.manager
+      //   .createQueryBuilder(Cafe, 'cafe')
+      //   .where('cafe.id = :id', { id: body?.id })
+      //   .leftJoinAndSelect('cafe.employees', 'employees')
+      //   .getMany();
+
+      // const empployeesidsAfterDelete = cafeEmployeesAfterDeelte
+      //   ?.map((e) => e.employees)
+      //   .map((e) => e.map((e) => e.id));
+      // if (!empployeesidsAfterDelete[0]?.length) {
+      //   await this.repository.manager.delete(Cafe, body?.id);
+      // }
     } else {
       throw new HttpException('Cafe not found', HttpStatus.NOT_FOUND);
     }

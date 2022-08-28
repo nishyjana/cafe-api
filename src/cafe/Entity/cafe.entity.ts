@@ -29,6 +29,10 @@ export default class Cafe {
   @UpdateDateColumn({ type: 'timestamp' })
   public updatedAt!: Date;
 
-  @OneToMany(() => Employee, (employee) => employee.cafe)
+  @OneToMany(() => Employee, (employee) => employee.cafe, {
+    nullable: false,
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
   employees: Employee[];
 }
