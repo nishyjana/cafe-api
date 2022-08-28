@@ -9,7 +9,7 @@ export class EmployeeService {
   @InjectRepository(Employee)
   private readonly repository: Repository<Employee>;
 
-  public createEmployee(body: CreateEmployeeDto): Promise<Employee> {
+  public async createEmployee(body: CreateEmployeeDto): Promise<Employee> {
     const employee: Employee = new Employee();
 
     employee.name = body.name;
@@ -18,6 +18,6 @@ export class EmployeeService {
     employee.phone_number = body.phone_number;
     employee.cafe = body.cafe;
 
-    return this.repository.save(employee);
+    return await this.repository.save(employee);
   }
 }
