@@ -2,6 +2,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   Inject,
   Post,
@@ -14,6 +15,7 @@ import { CreateEmployeeDto } from './Dto/employee.create.dto';
 import { Employee } from './Entity/employee.entity';
 import { UpdateCafeDto } from 'src/cafe/dto/updateCafe.dto';
 import { UpdateEmployeeDto } from './dto/updateEmployee.dto';
+import { DeleteEmployeeDto } from './dto/deleteEmployee.dto';
 
 @Controller('employee')
 export class EmployeeController {
@@ -34,5 +36,10 @@ export class EmployeeController {
   @Put()
   public updateCafe(@Body() body: UpdateEmployeeDto): Promise<void> {
     return this.employeeService.updateEmployee(body);
+  }
+
+  @Delete()
+  public deleteEmployee(@Body() body: DeleteEmployeeDto): Promise<void> {
+    return this.employeeService.deleteEmployee(body);
   }
 }

@@ -7,6 +7,7 @@ import { GetEmployeeByCafeDtoResponse } from './Dto/GetEmployeeResponse.dto';
 import { CreateEmployeeDto } from './Dto/employee.create.dto';
 import { Employee } from './Entity/employee.entity';
 import { UpdateEmployeeDto } from './dto/updateEmployee.dto';
+import { DeleteEmployeeDto } from './dto/deleteEmployee.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -100,6 +101,18 @@ export class EmployeeService {
       );
     } else {
       throw new HttpException('EMPLOYEE not found', HttpStatus.NOT_FOUND);
+    }
+  }
+  public async deleteEmployee(body: DeleteEmployeeDto): Promise<void> {
+    const employeeDetail = await this.repository.manager
+      .createQueryBuilder(Employee, 'employee')
+      .where('employee.id = :id', { id: body?.id })
+      .getOne();
+
+    if (employeeDetail) {
+      await this.repository.manager.delete(Employee, body?.id);
+    } else {
+      throw new HttpException('Employee not found', HttpStatus.NOT_FOUND);
     }
   }
 }

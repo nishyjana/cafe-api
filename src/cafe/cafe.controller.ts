@@ -2,6 +2,7 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   HostParam,
   Inject,
@@ -16,6 +17,7 @@ import { CafeService } from './cafe.service';
 import { CreateCafeDto } from './Dto/createCafe.dto';
 import { GetCafeByLocationDtoResponse } from './Dto/getCafeByLocation.dto';
 import { UpdateCafeDto } from './dto/updateCafe.dto';
+import { DeleteCafeDto } from './dto/deleteCafe.dto';
 
 @Controller('cafe')
 export class CafeController {
@@ -37,5 +39,10 @@ export class CafeController {
     @Query('location') location: string,
   ): Promise<GetCafeByLocationDtoResponse> {
     return this.cafeService.getCafeByLocation(location);
+  }
+
+  @Delete()
+  public deleteCafe(@Body() body: DeleteCafeDto): Promise<void> {
+    return this.cafeService.deleteCafe(body);
   }
 }
