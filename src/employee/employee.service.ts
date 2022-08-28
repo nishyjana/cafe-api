@@ -6,6 +6,7 @@ import { Repository } from 'typeorm';
 import { GetEmployeeByCafeDtoResponse } from './Dto/GetEmployeeResponse.dto';
 import { CreateEmployeeDto } from './Dto/employee.create.dto';
 import { Employee } from './Entity/employee.entity';
+import { UpdateEmployeeDto } from './dto/updateEmployee.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -67,5 +68,38 @@ export class EmployeeService {
     }));
 
     return dto;
+  }
+
+  public async updateEmployee(body: UpdateEmployeeDto): Promise<void> {
+    const employeeDetail = await this.repository.manager
+      .createQueryBuilder(Employee, 'employee')
+      .where('employee.id = :id', { id: body.id })
+      .getOne();
+
+    const cafeDetail = await this.repository.manager
+      .createQueryBuilder(Cafe, 'cafe')
+      .where('cafe.id = :id', { id: body.cafe })
+      .getOne();
+
+    const employeeBody = {
+      id: employeeDetail?.id,
+      name: body?.name,
+      email_address: body?.email_address,
+      phone_number: body?.phone_number,
+      gender: body?.gender,
+      updatedAt: employeeDetail?.updatedAt,
+      cafe: cafeDetail ? cafeDetail : {},
+    };
+
+    if (employeeBody && employeeDetail) {
+      // return await this.repository.save(cafeBody);
+      await this.repository.manager.update(
+        Employee,
+        { id: body?.id },
+        { ...employeeBody },
+      );
+    } else {
+      throw new HttpException('EMPLOYEE not found', HttpStatus.NOT_FOUND);
+    }
   }
 }

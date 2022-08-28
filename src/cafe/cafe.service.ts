@@ -69,7 +69,7 @@ export class CafeService {
       employees: cafeDetail?.employees,
     };
 
-    if (cafeDetail) {
+    if (cafeDetail && cafeBody) {
       // return await this.repository.save(cafeBody);
       await this.repository.manager.update(
         Cafe,
