@@ -6,6 +6,7 @@ import Cafe from './Entity/cafe.entity';
 import { CreateCafeDto } from './Dto/createCafe.dto';
 import { GetCafeByLocationDtoResponse } from './Dto/getCafeByLocation.dto';
 import { Employee } from 'src/employee/Entity/employee.entity';
+import { UpdateCafeDto } from './dto/updateCafe.dto';
 
 @Injectable()
 export class CafeService {
@@ -50,5 +51,33 @@ export class CafeService {
     dto.employees = cafes['employees'];
 
     return dto;
+  }
+
+  public async updateCafe(body: UpdateCafeDto): Promise<void> {
+    const cafeDetail = await this.repository.manager
+      .createQueryBuilder(Cafe, 'cafe')
+      .where('cafe.id = :id', { id: body.id })
+      .getOne();
+
+    const cafeBody = {
+      id: cafeDetail?.id,
+      name: body?.name,
+      logo: body?.logo,
+      location: body?.location,
+      description: body?.description,
+      updatedAt: cafeDetail?.updatedAt,
+      employees: cafeDetail?.employees,
+    };
+
+    if (cafeDetail) {
+      // return await this.repository.save(cafeBody);
+      await this.repository.manager.update(
+        Cafe,
+        { id: body?.id },
+        { ...cafeBody },
+      );
+    } else {
+      throw new HttpException('Cafe not found', HttpStatus.NOT_FOUND);
+    }
   }
 }
