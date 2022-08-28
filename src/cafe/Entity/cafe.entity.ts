@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Employee } from '../../employee/Entity/employee.entity';
 import {
   Entity,

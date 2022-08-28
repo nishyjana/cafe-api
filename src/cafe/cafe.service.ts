@@ -29,10 +29,14 @@ export class CafeService {
     const cafes = await this.repository.manager
       .createQueryBuilder(Cafe, 'cafe')
       .where('cafe.location = :location', { location: location.toLowerCase() })
+      .leftJoinAndSelect('cafe.employees', 'employees')
+      .loadRelationCountAndMap('cafe.employees', 'cafe.employees')
       .getMany();
 
     const dto = new GetCafeByLocationDtoResponse();
     dto.cafes = cafes;
+    dto.employees = cafes['employees'];
+    console.log(cafes);
 
     return dto;
   }
