@@ -1,9 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import Cafe from '../cafe/Entity/cafe.entity';
 import { Repository } from 'typeorm';
 import { GetEmployeeByCafeDtoResponse } from './Dto/GetEmployeeResponse.dto';
-import { CreateEmployeeDto } from './Entity/employee.create.dto';
+import { CreateEmployeeDto } from './Dto/employee.create.dto';
 import { Employee } from './Entity/employee.entity';
 
 @Injectable()
@@ -20,7 +20,19 @@ export class EmployeeService {
     employee.phone_number = body.phone_number;
     employee.cafe = body.cafe;
 
-    return await this.repository.save(employee);
+    const employeDetail = await this.repository.manager
+      .createQueryBuilder(Employee, 'emloyee')
+      .where('emloyee.name = :name', { name: body?.name })
+      .getOne();
+
+    if (employeDetail) {
+      throw new HttpException(
+        'Employee name is already there, try a different name',
+        HttpStatus.CONFLICT,
+      );
+    } else {
+      return await this.repository.save(employee);
+    }
   }
 
   public async getEmployeesByCafe(
@@ -42,6 +54,7 @@ export class EmployeeService {
     const dto = new GetEmployeeByCafeDtoResponse();
 
     dto.employee = employees?.map((employee) => ({
+      id: employee?.id,
       name: employee?.name,
       email_address: employee?.email_address,
       phone_number: employee?.phone_number,

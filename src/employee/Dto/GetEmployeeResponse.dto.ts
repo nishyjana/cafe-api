@@ -3,6 +3,9 @@ import { IsNotEmpty, IsNumber, IsString } from 'class-validator';
 import { Employee } from '../Entity/employee.entity';
 
 export class EmployeeResponse {
+  @IsNumber()
+  public id: number;
+
   @IsString()
   public name: string;
 

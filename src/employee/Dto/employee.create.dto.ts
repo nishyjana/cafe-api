@@ -6,7 +6,7 @@ import {
   IsString,
 } from 'class-validator';
 import Cafe from '../../cafe/Entity/cafe.entity';
-import { Gender } from './employee.enum';
+import { Gender } from '../Entity/employee.enum';
 
 export class CreateEmployeeDto {
   @IsString()

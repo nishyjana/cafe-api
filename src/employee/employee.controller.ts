@@ -2,7 +2,7 @@
 import { Body, Controller, Get, Inject, Post, Query } from '@nestjs/common';
 import { GetEmployeeByCafeDtoResponse } from './Dto/GetEmployeeResponse.dto';
 import { EmployeeService } from './employee.service';
-import { CreateEmployeeDto } from './Entity/employee.create.dto';
+import { CreateEmployeeDto } from './Dto/employee.create.dto';
 import { Employee } from './Entity/employee.entity';
 
 @Controller('employee')
