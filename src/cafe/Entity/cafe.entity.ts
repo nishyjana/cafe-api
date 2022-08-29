@@ -30,7 +30,7 @@ export default class Cafe {
   public updatedAt!: Date;
 
   @OneToMany(() => Employee, (employee) => employee.cafe, {
-    nullable: false,
+    orphanedRowAction: 'delete',
     onDelete: 'CASCADE',
     onUpdate: 'CASCADE',
   })
